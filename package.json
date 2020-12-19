@@ -1,0 +1,22 @@
+{
+  "name": "api-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HugoPoletto34/API-NodeJs.git"
+  },
+  "author": "Hugo Poletto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HugoPoletto34/API-NodeJs/issues"
+  },
+  "homepage": "https://github.com/HugoPoletto34/API-NodeJs#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
