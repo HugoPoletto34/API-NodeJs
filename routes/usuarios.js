@@ -6,19 +6,26 @@ const jwt = require('jsonwebtoken')
 const tok = require('../token')
 
 router.post('/cadastro', (req,res,next) => {
-    bcrypt.hash(req.body.senha, 10, (errBcrypt, hash) => {
+    bcrypt.hash(req.body.senha, 10, async(errBcrypt, hash) => {
         if(errBcrypt){ return res.status(500).send({erro: errBcrypt})}
         console.log(hash)
         const ID = Math.random() * 10000;
-        pool.query(`INSERT INTO capitão (cod_capitao, nome_capitao, email, senha) VALUES (${ID}, '${req.body.nome}', '${req.body.email}', '${hash}');`)
-        const response = {
-            mensagem: "Criado com sucesso!",
-            usuario:  {
-                nome: req.body.nome,
-                email: req.body.email
-            }
+        await pool.query(`INSERT INTO capitão (cod_capitao, nome_capitao, email, senha) VALUES (${ID}, '${req.body.nome}', '${req.body.email}', '${hash}');`)
+        const veri = await pool.query(`select * from capitão where email = '${req.body.email}'`)
+        if(veri.rowCount == 0){
+            return res.status(401).send({mensagem: "Não foi possível cadastrar!"});
         }
-        return res.status(201).send(response);
+        else {
+            const response = {
+                mensagem: "Criado com sucesso!",
+                usuario:  {
+                    nome: req.body.nome,
+                    email: req.body.email
+                }
+            }
+            return res.status(201).send(response);
+        }
+
     });
 });
 
