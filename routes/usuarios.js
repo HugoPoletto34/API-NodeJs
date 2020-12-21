@@ -9,7 +9,8 @@ router.post('/cadastro', (req,res,next) => {
     bcrypt.hash(req.body.senha, 10, (errBcrypt, hash) => {
         if(errBcrypt){ return res.status(500).send({erro: errBcrypt})}
         console.log(hash)
-        pool.query(`INSERT INTO capitão (cod_capitao, nome_capitao, email, senha) VALUES (8, '${req.body.nome}', '${req.body.email}', '${hash}');`)
+        const ID = Math.random() * 10000;
+        pool.query(`INSERT INTO capitão (cod_capitao, nome_capitao, email, senha) VALUES (${ID}, '${req.body.nome}', '${req.body.email}', '${hash}');`)
         const response = {
             mensagem: "Criado com sucesso!",
             usuario:  {
