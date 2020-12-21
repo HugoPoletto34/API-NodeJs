@@ -10,12 +10,16 @@ router.post('/cadastro', (req,res,next) => {
         if(errBcrypt){ return res.status(500).send({erro: errBcrypt})}
         console.log(hash)
         const ID = Math.random() * 10000;
-        await pool.query(`INSERT INTO capitão (cod_capitao, nome_capitao, email, senha) VALUES (${ID}, '${req.body.nome}', '${req.body.email}', '${hash}');`)
-        const veri = await pool.query(`select * from capitão where email = '${req.body.email}'`)
-        if(veri.rowCount == 0){
+        const veri = await pool.query(`select email from capitão where email = '${req.body.email}'`)
+        if(veri.rowCount > 0){
             return res.status(401).send({mensagem: "Não foi possível cadastrar!"});
         }
         else {
+            await pool.query(`INSERT INTO capitão (cod_capitao, nome_capitao, email, senha) VALUES (${ID}, '${req.body.nome}', '${req.body.email}', '${hash}');`)
+            res.header({
+                "Authorization": "Bearer " + hash
+             })
+             
             const response = {
                 mensagem: "Criado com sucesso!",
                 usuario:  {
@@ -45,7 +49,9 @@ router.post('/login', async(req,res,next) => {
             {
                 expiresIn: "1h"
             });
-
+            res.header({
+                "Authorization": "Bearer " + token
+             })
             return res.status(200).send({
                 mensagem: "Autenticado com sucesso",
                 token: token

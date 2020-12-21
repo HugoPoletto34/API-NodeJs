@@ -6,11 +6,13 @@ const morgan = require('morgan')
 const rotaProdutos = require('./routes/produtos');
 const rotaPedidos = require('./routes/pedidos');
 const rotaUsuarios = require('./routes/usuarios');
+const cors = require('cors')
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(bodyParser.json())
 
+app.use(cors({origin: "http://127.0.0.1:5500"}));
 app.use((req,res,next) => {
     res.header('Access-Control_Allow_Origin', '*')
     res.header(
