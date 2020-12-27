@@ -19,6 +19,11 @@ app.use((req,res,next) => {
         'Access-Control_Allow_Header',
         'Origin, X-Requested-With, Content-Type, Accept, Authorization'
     );
+    res.header(
+        'Authorization',
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfY2FwaXRhbyI6Njg0OCwiZW1haWwiOiJodWdvQGdtYWlsLmNvIiwiaWF0IjoxNjA5MDI3MTA0LCJleHAiOjE2MDkwMzA3MDR9.iEMY0wTeb6X2-9sTh9KdqkBlXwH0DWdn_OjRmJi7WAQ'
+    );
+
 
     if(req.method === 'OPTIONS') {
         res.header('Access-Control-Allow_Methods', 'PUT, POST, PATCH, DELETE, GET');
