@@ -47,7 +47,7 @@ router.post('/login', async(req,res,next) => {
                 email: todo.rows[0].email
             }, tok.JSON_TOKEN,
             {
-                expiresIn: "1h"
+                expiresIn: "1m"
             });
             res.header({
                 "Authorization": "Bearer " + token
@@ -62,6 +62,16 @@ router.post('/login', async(req,res,next) => {
 
         
     })
+})
+
+router.post('/valida', (req,res,next) => {
+
+        const token = req.headers.authorization.split(' ')[1]
+        const decode = jwt.verify(token, tok.JSON_TOKEN);
+        req.usuario = decode;
+        return res.status(200).send({mensagema: decode})
+
+    
 })
 
 module.exports = router;
